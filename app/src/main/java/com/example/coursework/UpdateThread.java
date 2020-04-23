@@ -23,6 +23,7 @@ public class UpdateThread extends Thread {
     public void run() {
         for (int i = 0; i < 10; ++i){
             try {
+
                 Thread.sleep(5000);
                 Message message = new Message();
                 message.obj = data;
