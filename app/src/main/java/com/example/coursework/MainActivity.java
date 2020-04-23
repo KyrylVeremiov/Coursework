@@ -46,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
         recycler.setAdapter(adapter);
 
         try {
-            Response<List<Search>> response = App.getApi().getData("/172_ISS-Slosh").execute();
+            Response<List<Search>> response = App.getApi().getData().execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        App.getApi().getData("/172_ISS-Slosh").enqueue(new Callback<List<Search>>() {
+        App.getApi().getData().enqueue(new Callback<List<Search>>() {
             @Override
             public void onResponse(Call<List<Search>> call, Response<List<Search>> response){
                 assert response.body() != null;
