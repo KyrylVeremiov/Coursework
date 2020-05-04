@@ -2,22 +2,32 @@ package com.example.coursework;
 
 import android.os.Build;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
-    private List<Search> searches;
+    private static Search data;
 
-    public SearchAdapter(List<Search> searhes) {
-        this.searches = searhes;
+    public SearchAdapter(Search data) {
+        if(data==null){
+            this.data=new Search();
+        }
+        else {
+            this.data = data;
+        }
+    }
+
+    public void setData(Search data) {
+        Log.d("myLogs: ", "set data");
+        this.data = data;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -28,29 +38,27 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Search search = searches.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Log.d("myLogs: ", "get data");
+        Search search = data;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            holder.search.setText(Html.fromHtml(search.getLocation(), Html.FROM_HTML_MODE_LEGACY));
+            holder.search.loadUrl(String.valueOf(Html.fromHtml(search.getLocation(), Html.FROM_HTML_MODE_LEGACY)));
         } else {
-            holder.search.setText(Html.fromHtml(search.getLocation()));
+            holder.search.loadUrl(String.valueOf(Html.fromHtml(search.getLocation())));
         }
-        holder.search.setText(search.getLocation());
+        holder.search.loadUrl(search.getLocation());
     }
 
     @Override
     public int getItemCount() {
-        if (searches == null)
-            return 0;
-        return searches.size();
+        return 1;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView search;
-
+        WebView search;
         public ViewHolder(View itemView) {
             super(itemView);
-            search = (TextView) itemView.findViewById(R.id.element_name);
+            search = itemView.findViewById(R.id.element);
         }
     }
 }

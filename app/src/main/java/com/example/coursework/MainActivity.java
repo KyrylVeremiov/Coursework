@@ -1,70 +1,58 @@
 package com.example.coursework;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
+public class MainActivity extends AppCompatActivity implements Observer<Search> {
+        private RecyclerView recycler;
+        private Search search;
+        private LiveData<Search> liveData;
+        final SearchAdapter adapter = new SearchAdapter(search);
+        @SuppressLint("HandlerLeak")
+        Handler handler;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class MainActivity extends AppCompatActivity {
-    private RecyclerView recycler;
-    List<Search> searches;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
+@SuppressLint("HandlerLeak")
+@Override
+protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-     /*  // recycler = findViewById(R.id.download_recycler);
-        final DownloadAdapter downloadAdapter = new DownloadAdapter();
-        recycler.setAdapter(downloadAdapter);
+
+        recycler = findViewById(R.id.recycler_view);
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        @SuppressLint("HandlerLeak")
-        Handler handler = new Handler(){
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-                List<Pair<String, Integer>> incomingData = (List<Pair<String, Integer>>)msg.obj;
-                downloadAdapter.setData(incomingData);
-            }
-        };*/
-
-
-        recycler = (RecyclerView) findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recycler.setLayoutManager(layoutManager);
-
-        SearchAdapter adapter = new SearchAdapter(searches);
         recycler.setAdapter(adapter);
 
-        try {
-            Response<List<Search>> response = App.getApi().getData().execute();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Repository repository = new Repository(new LocalDataSource(), new RemoteDataSource());
+        liveData = repository.refreshData();
+        liveData.observe(this, this);
+/*        handler = new Handler(){
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                        super.handleMessage(msg);
+                        Search incomingData = (Search)msg.obj;
+                        adapter.setData(incomingData);
+                }
+        };*/
         }
-
-        App.getApi().getData().enqueue(new Callback<List<Search>>() {
-            @Override
-            public void onResponse(Call<List<Search>> call, Response<List<Search>> response){
-                assert response.body() != null;
-                searches.addAll(response.body());
-                Objects.requireNonNull(recycler.getAdapter()).notifyDataSetChanged();
-
-                //recycler.getAdapter().notifyDataSetChanged();
+        public void makeSearch(View view){
+//            Log.d("myLogs: ", "making request");
+//            UpdateThread updateThread = new UpdateThread(handler);
+//            updateThread.start();
+            Repository repository = new Repository(new LocalDataSource(), new RemoteDataSource());
+            liveData = repository.refreshData();
             }
 
-            @Override
-            public void onFailure(Call<List<Search>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
-            }
-        });
+    @Override
+    public void onChanged(Search search) {
+        Log.e("MAIN", "onCanged!!!");
+        adapter.setData(search);
     }
 }

@@ -1,21 +1,16 @@
 package com.example.coursework;
 
-import android.os.Build;
-import android.text.Html;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.coursework.Search;
-import com.example.coursework.R;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.DownloadHolder> {
     private List<Pair<String, Integer>> data = new ArrayList<>();
@@ -25,8 +20,8 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.Downlo
         public TextView percent;
         public DownloadHolder(View view){
             super(view);
-            name = view.findViewById(R.id.element_name);
-            percent = view.findViewById(R.id.element_status);
+           // name = view.findViewById(R.id.element_name);
+          //  percent = view.findViewById(R.id.element_status);
         }
     }
 
