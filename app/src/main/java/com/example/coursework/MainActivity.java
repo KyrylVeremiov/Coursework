@@ -8,6 +8,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +32,8 @@ protected void onCreate(Bundle savedInstanceState){
         recycler.setAdapter(adapter);
 
         Repository repository = new Repository(new LocalDataSource(), new RemoteDataSource());
-        liveData = repository.refreshData();
+        liveData = repository.getData();
+        liveData = new MutableLiveData<>();
         liveData.observe(this, this);
 /*        handler = new Handler(){
                 @Override
@@ -48,6 +50,10 @@ protected void onCreate(Bundle savedInstanceState){
 //            updateThread.start();
             Repository repository = new Repository(new LocalDataSource(), new RemoteDataSource());
             liveData = repository.refreshData();
+            liveData.observe(this, this);
+            AppDatabase db = App.getInstance().getDatabase();
+            SearchDao searchDao = db.searchDao();
+            //searchDao.insert(search);
             }
 
     @Override
