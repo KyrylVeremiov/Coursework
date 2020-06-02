@@ -1,4 +1,24 @@
 <resources>
     <string name="app_name">Coursework</string>
+    <string name="what_do_you_would_like_to_see">What do you would like to see?</string>
+    <string name="make_search">Search</string>
+    <string name="terms_to_search_for_in_description_fields">Terms to search for in “Description” fields</string>
+    <string name="keywords_separate_multiple_values_with_commas">Keywords. Separate multiple values with commas</string>
+    <string name="_508_description_fields">“508 Description” fields</string>
+    <string name="location">Location</string>
+    <string name="media_types_to_restrict_the_search_to_available_types_image_audio_separate_multiple_values_with_commas">Media types to restrict the search to. Available types: [“image”, “audio”]. Separate multiple values with commas.</string>
+    <string name="the_media_asset_s_nasa_id">The media asset’s NASA ID</string>
+    <string name="page_number_starting_at_1_of_results_to_get">Page number, starting at 1, of results to get</string>
+    <string name="the_primary_photographer_s_name">The primary photographer’s name</string>
+    <string name="a_secondary_photographer_videographer_s_name">A secondary photographer/videographer’s name</string>
+    <string name="terms_to_search_for_in_title_fields">Terms to search for in “Title” fields</string>
+    <string name="the_start_year_for_results_format_yyyy">The start year for results. Format: YYYY</string>
+    <string name="the_end_year_for_results_format_yyyy">The end year for results. Format: YYYY</string>
+    <string name="free_text_search_terms_to_compare_to_all_indexed_metadata">Free text search terms to compare to all indexed metadata</string>
     <string name="search">Search</string>
+    <string name="nasa_center_which_published_the_media">NASA center which published the media</string>
+    <string name="satellites">Satellites</string>
+    <string name="asteroids">Asteroids</string>
+    <string name="stars">Stars</string>
+    <string name="media">Media</string>
 </resources>

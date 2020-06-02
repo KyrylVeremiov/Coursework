@@ -1,24 +1,47 @@
 package com.example.coursework;
 
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 public class DataViewModel extends ViewModel {
-    public DataViewModel(){
+    private static String TAG= "MyLogs";
+    private static Repository repository = new Repository(new LocalDataSource(), new RemoteDataSource());
+    private static MediatorLiveData<Search> data = new MediatorLiveData<Search>();//reprository.getData()
+    //Database
+    //Activity
 
-    }
-    private Repository repository = new Repository(new LocalDataSource(), new RemoteDataSource());
-    private MediatorLiveData<Search> data = new MediatorLiveData<>();
-
-    public LiveData<Search> getData(){
-        data.addSource(repository.refreshData(), new Observer<Search>() {
+    public DataViewModel() {
+        data.removeSource(repository.getData());
+        data.addSource(repository.getData(), new Observer<Search>() {
             @Override
-            public void onChanged(Search o) {
-
+            public void onChanged(@Nullable Search search) {
+                Log.d(TAG,"onChanged!");
+                data.setValue(search);
             }
         });
-        return data;
     }
+
+//    public LiveData<Search> getData(String[] params) {
+//            data = new MediatorLiveData<Search>();
+//            data.addSource(repository.refreshData(params), new Observer<Search>() {
+//            @Override
+//            public void onChanged(Search search) {
+//
+//            }
+//        });
+//        return data;
+//    }
+
+public LiveData<Search> getData() {
+    return data;
+}
+public LiveData<Search> searchData(String[] params) {
+    repository.refreshData(params);
+    return data;
+}
 }

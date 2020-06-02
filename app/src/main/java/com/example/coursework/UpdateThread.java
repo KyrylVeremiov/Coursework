@@ -1,12 +1,9 @@
 package com.example.coursework;
 
 import android.os.Handler;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
-import java.io.IOException;
 
 import retrofit2.Response;
 
@@ -30,13 +27,13 @@ public class UpdateThread extends Thread {
 
     @Override
     public void run() {
-        try {
-            response = App.getApi().getData().execute();
-            Log.d("myLogs: ", "response is received");
-            data=response.body();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            response = App.getSearchApi().search().execute();
+//            Log.d("myLogs: ", "response is received");
+//            data=response.body();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         liveData.postValue(data);
 //        Message message = new Message();
 //        message.obj = data;
