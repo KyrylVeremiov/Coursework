@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
-
+    private static final String TAG="MyLogs";
     private static Search data;//search;
     private static List<Item> items;
 
@@ -37,17 +37,20 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         Log.d("myLogs: ", "get data");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             if(items!=null) {
-                holder.title.setText(items.get(position).getData().get(0).getTitle());
+                final Datum datum= items.get(position).getData().get(0);
+                holder.title.setText(datum.getTitle());
                 holder.show.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //todo new search_result_fragment
-
+                        HistoryRecord record= new HistoryRecord(datum.getNasaId(),datum.getTitle(),items.get(position).getHref());
+                        Log.d(TAG, "New record to database"+"id: "+datum.getNasaId() + "title: "+datum.getTitle()+"href: "+items.get(position).getHref());
+                        App.getInstance().getDatabase().historyDao().insert(record);
                     }
                 });
             }

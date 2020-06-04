@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Room;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -16,7 +17,6 @@ public class App extends Application {
 
     private static ImagesApiNasa imagesApiNasa;
     private Retrofit retrofitNasa;
-    private Retrofit retrofitn2YO;
 
     public static App instance;
 
@@ -29,8 +29,8 @@ public class App extends Application {
 
         super.onCreate();
         instance = this;
-//        database =  Room.databaseBuilder(getApplicationContext(),
-//                AppDatabase.class, "database").build();
+        database =  Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "history").build();
 
         retrofitNasa = new Retrofit.Builder()
                 .baseUrl("https://images-api.nasa.gov")

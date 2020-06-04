@@ -31,7 +31,6 @@ LiveData<Search> liveData;
         startActivity(startMediaSearchActivity);
     }
 
-
     public void startAsteroidsActivity(View view) {
         Intent startAsteroidsActivity= new Intent(this, AsteroidsActivity.class);
         startActivity(startAsteroidsActivity);

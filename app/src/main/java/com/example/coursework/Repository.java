@@ -22,7 +22,7 @@ public class Repository {
             @Override
             public void run() {
                 //                AppDatabase db = App.getInstance().getDatabase();
-//                SearchDao searchDao = db.searchDao();
+//                HistoryDao searchDao = db.searchDao();
 //                MutableLiveData<Search> data=new MutableLiveData<Search>();
 //                if(searchDao.getAll().size()!=0){
 //                    data.setValue(searchDao.getById(0));
