@@ -20,7 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MediaSearchActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".StarsActivity" />
+        <activity android:name=".AsteroidsActivity" />
+        <activity android:name=".SatellitesActivity" />
     </application>
 
 </manifest>

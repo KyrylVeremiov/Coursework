@@ -10,33 +10,40 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 public class MainActivity extends AppCompatActivity implements Observer<Search> {
-
+//Option menu: Fragments : settings,regestration,history
+    //Activityes
 LiveData<Search> liveData;
 @Override
-protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
             liveData=new MutableLiveData<>();
             liveData.observe(this, this);
         }
-        public void startMediaSearchActivity(View view){
-            Intent startMediaSearchActivity= new Intent(this, MediaSearchActivity.class);
-            startActivity(startMediaSearchActivity);
 
-            }
 
     @Override
     public void onChanged(Search search) {
 
     }
+    public void startMediaSearchActivity(View view){
+        Intent startMediaSearchActivity= new Intent(this, SearchActivity.class);
+        startActivity(startMediaSearchActivity);
+    }
+
 
     public void startAsteroidsActivity(View view) {
-
+        Intent startAsteroidsActivity= new Intent(this, AsteroidsActivity.class);
+        startActivity(startAsteroidsActivity);
     }
 
     public void startSatellitesActivity(View view) {
+        Intent startAsteroidsActivity= new Intent(this, SatellitesActivity.class);
+        startActivity(startAsteroidsActivity);
     }
 
     public void startStarsActivity(View view) {
+        Intent startStarsActivity= new Intent(this, StarsActivity.class);
+        startActivity(startStarsActivity);
     }
 }

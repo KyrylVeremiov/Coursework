@@ -15,7 +15,6 @@ public class App extends Application {
 
 
     private static ImagesApiNasa imagesApiNasa;
-    private static N2YOApi n2YOApi;
     private Retrofit retrofitNasa;
     private Retrofit retrofitn2YO;
 
@@ -37,10 +36,6 @@ public class App extends Application {
                 .baseUrl("https://images-api.nasa.gov")
                 .addConverterFactory(GsonConverterFactory.create()).build();
         imagesApiNasa = retrofitNasa.create(ImagesApiNasa.class);
-        retrofitn2YO=new Retrofit.Builder()
-                .baseUrl("https://www.n2yo.com/rest/v1/satellite/")
-                .addConverterFactory(GsonConverterFactory.create()).build();
-        n2YOApi=retrofitn2YO.create(N2YOApi.class);
     }
 
     ViewModelProvider.Factory getViewModeFactory(){
@@ -57,8 +52,5 @@ public class App extends Application {
 
     public static ImagesApiNasa getSearchApi(){
         return imagesApiNasa;
-    }
-    public static N2YOApi getN2YOApi(){
-        return n2YOApi;
     }
 }
