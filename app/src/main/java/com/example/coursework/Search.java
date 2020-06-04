@@ -16,5 +16,4 @@ public class Search {
     public void setCollection(Collection collection) {
         this.collection = collection;
     }
-
 }
