@@ -1,5 +1,6 @@
 package com.example.coursework;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,16 +10,20 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements Observer<ArrayList<HistoryRecord>> {
     private static String TAG="MyLogs";
+    final MutableLiveData<ArrayList<HistoryRecord>> historyRecords = new MutableLiveData<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -31,6 +36,15 @@ public class SearchActivity extends AppCompatActivity {
                     .replace(R.id.fragment_container, new SearchFragment())
                     .commit();
         }
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<HistoryRecord> historyRecords1=(ArrayList<HistoryRecord>) new LocalDataSource().getHistory();
+                historyRecords.postValue(historyRecords1);
+            }
+        });
     }
 
 
@@ -52,42 +66,40 @@ public class SearchActivity extends AppCompatActivity {
             case R.id.history:
                 Toast.makeText(this, "Your history", Toast.LENGTH_LONG).show();
 
-                Executor executor = Executors.newSingleThreadExecutor();int[] g;g=new int[3];
 //                final Object[] historyRecords=new Object[1];
 //                final Bundle bundle = new Bundle();
 
-                final MediatorLiveData<ArrayList<HistoryRecord>> finalHistoryRecords = new MediatorLiveData<ArrayList<HistoryRecord>>();
+
 
 //                MediatorLiveData<ArrayList<HistoryRecord>> historyRecords = new MediatorLiveData<>();
-//                final MediatorLiveData<ArrayList<HistoryRecord>> finalHistoryRecords = historyRecords;
-                executor.execute(new Runnable() {
-                                     @Override
-                                     public void run() {
-                                         ArrayList<HistoryRecord> historyRecords1=(ArrayList<HistoryRecord>) new LocalDataSource().getHistory();
-                                         finalHistoryRecords.postValue(historyRecords1);
-                                     }
-                                 });
-                for (HistoryRecord historyRecord :
-                        Objects.requireNonNull(finalHistoryRecords.getValue())) {
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);
-                    LinearLayout layout = new LinearLayout(this);
-                    layout.setOrientation(LinearLayout.VERTICAL);
+                final AppCompatActivity context=this;
 
-                    TextView id = new TextView(this);
-                    id.setText(historyRecord.id);
-                    TextView title = new TextView(this);
-                    title.setText(historyRecord.title);
-                    TextView href = new TextView(this);
-                    href.setText(historyRecord.href);
-                    layout.addView(id);
-                    layout.addView(title);
-                    layout.addView(href);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout layout = new LinearLayout(context);
+        for (HistoryRecord historyRecord :
+                Objects.requireNonNull(historyRecords.getValue())) {
+            layout.setOrientation(LinearLayout.VERTICAL);
 
-                    LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);
-                    this.addContentView(layout, layoutParam);
-                }
+            TextView id = new TextView(context);
+            id.setText(historyRecord.id);
+            TextView title = new TextView(context);
+            title.setText(historyRecord.title);
+            TextView href = new TextView(context);
+            href.setText(historyRecord.href);
+            href.setPadding(0,0,0,5);
+            layout.addView(id);
+            layout.addView(title);
+            layout.addView(href);
+            
+
+        }
+                LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new Fragment()).commit();
+
+                context.addContentView(layout, layoutParam);
+
 //                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HistoryFragment()).commit();
                 Toast.makeText(this, "Search clicked", Toast.LENGTH_LONG).show();
                 return true;
@@ -104,5 +116,11 @@ public class SearchActivity extends AppCompatActivity {
         } else {
             fragmentManager.popBackStack();
         }
+    }
+
+
+    @Override
+    public void onChanged(ArrayList<HistoryRecord> historyRecords) {
+
     }
 }
