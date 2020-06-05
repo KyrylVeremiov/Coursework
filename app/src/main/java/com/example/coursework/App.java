@@ -13,31 +13,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class App extends Application {
 
     private ViewModelProvider.Factory factory;
-
-
-    private static ImagesApiNasa imagesApiNasa;
-    private Retrofit retrofitNasa;
-
-    public static App instance;
-
-    private AppDatabase database;
-
+    private Repository repository;
+    private static App instance;
     @Override
     public void onCreate() {
         super.onCreate();
         factory = new DataViewModelFactory();
 
-        super.onCreate();
         instance = this;
-        database =  Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "history").build();
-
-        retrofitNasa = new Retrofit.Builder()
-                .baseUrl("https://images-api.nasa.gov")
-                .addConverterFactory(GsonConverterFactory.create()).build();
-        imagesApiNasa = retrofitNasa.create(ImagesApiNasa.class);
+        repository=new Repository();
     }
-
     ViewModelProvider.Factory getViewModeFactory(){
         return factory;
     }
@@ -46,11 +31,8 @@ public class App extends Application {
         return instance;
     }
 
-    public AppDatabase getDatabase() {
-        return database;
+    public Repository getRepository() {
+        return repository;
     }
 
-    public static ImagesApiNasa getSearchApi(){
-        return imagesApiNasa;
-    }
 }

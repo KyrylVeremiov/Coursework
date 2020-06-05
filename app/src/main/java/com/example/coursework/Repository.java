@@ -1,5 +1,7 @@
 package com.example.coursework;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -15,6 +17,10 @@ public class Repository {
     public Repository(LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
+    }
+    public Repository(){
+        this.localDataSource=new LocalDataSource();
+        this.remoteDataSource=new RemoteDataSource();
     }
 
     public LiveData<Search> refreshData(final String[] params) {

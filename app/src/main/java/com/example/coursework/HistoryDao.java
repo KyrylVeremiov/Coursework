@@ -15,7 +15,7 @@ public interface HistoryDao {
     List<HistoryRecord> getAll();
 
     @Query("SELECT * FROM HistoryRecord WHERE id = :id")
-    Search getById(String id);
+    HistoryRecord getById(String id);
 
     @Insert
     void insert(HistoryRecord record);

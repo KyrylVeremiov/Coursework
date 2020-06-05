@@ -10,12 +10,13 @@ import androidx.lifecycle.ViewModel;
 
 public class DataViewModel extends ViewModel {
     private static String TAG= "MyLogs";
-    private static Repository repository = new Repository(new LocalDataSource(), new RemoteDataSource());
+    private static Repository repository;
     private static MediatorLiveData<Search> data = new MediatorLiveData<Search>();//reprository.getData()
     //Database
     //Activity
 
     public DataViewModel() {
+        repository=App.getInstance().getRepository();
         data.removeSource(repository.getData());
         data.addSource(repository.getData(), new Observer<Search>() {
             @Override
@@ -25,17 +26,6 @@ public class DataViewModel extends ViewModel {
             }
         });
     }
-
-//    public LiveData<Search> getData(String[] params) {
-//            data = new MediatorLiveData<Search>();
-//            data.addSource(repository.refreshData(params), new Observer<Search>() {
-//            @Override
-//            public void onChanged(Search search) {
-//
-//            }
-//        });
-//        return data;
-//    }
 
 public LiveData<Search> getData() {
     return data;
