@@ -16,9 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
-    private static final String TAG="MyLogs";
+    private static String TAG= "MyLogs (SearchAdapter)";
     private static Search data;//search;
     private static List<Item> items;
+    private boolean emptySearch=false;
 
     public SearchAdapter(Search data) {
         SearchAdapter.data = data;
@@ -27,6 +28,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     public void setData(Search search) {
         Log.d("MyLogs:", "set data");
         SearchAdapter.data = search;
+        emptySearch=false;
         SearchAdapter.items= search ==null? null: search.getCollection().getItems();
         notifyDataSetChanged();
     }
@@ -42,8 +44,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         Log.d("myLogs: ", "get data");
+        if(emptySearch)
+            holder.title.setText("There are no results of the search");
 
-            if(items!=null) {
+        else if(items!=null) {
                 final Datum datum= items.get(position).getData().get(0);
                 holder.title.setText(datum.getTitle());
                 holder.show.setOnClickListener(new View.OnClickListener() {
@@ -55,9 +59,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 });
             }
 //          //            holder.search.loadUrl(String.valueOf(Html.fromHtml(search.(), Html.FROM_HTML_MODE_LEGACY)));
-         else {
-            holder.title.setText("There are no results of the search");
-        }
+
 //        holder.search.loadUrl(search.getLocation());
     }
 
@@ -65,6 +67,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     public int getItemCount() {
         if (data == null)
             return 0;
+        if(items.size()==0){
+            emptySearch=true;
+            return 1;
+        }
         return items.size();
 //        return 1;
     }

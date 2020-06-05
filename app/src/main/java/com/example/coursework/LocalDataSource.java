@@ -1,11 +1,12 @@
 package com.example.coursework;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
+
+import java.util.List;
 
 public class LocalDataSource {
     private MutableLiveData<Search> liveData = new MutableLiveData<Search>();
@@ -30,13 +31,18 @@ public class LocalDataSource {
 
     public void putData(Search data) {
         this.liveData.postValue(data);
-        if (data != null) {
+        if (data.getCollection().getItems().size() != 0) {
             Datum datum = data.getCollection().getItems().get(0).getData().get(0);
             String href = data.getCollection().getHref();
             HistoryRecord record = new HistoryRecord(datum.getNasaId(), datum.getTitle(), href);
-            Log.d(TAG, "New record to database" + "id: " + datum.getNasaId() + "title: " + datum.getTitle() + "href: " + href);
-            database.historyDao().insert(record);
-            Log.d(TAG, "The record is done");
+            if(database.historyDao().getById(datum.getNasaId())==null){
+                Log.d(TAG, "New record to database" + "id: " + datum.getNasaId() + "title: " + datum.getTitle() + "href: " + href);
+                database.historyDao().insert(record);
+                Log.d(TAG, "The record is done");
+            }
         }
+    }
+    public List<HistoryRecord> getHistory(){
+        return database.historyDao().getAll();
     }
 }

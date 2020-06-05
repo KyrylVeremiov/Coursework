@@ -20,7 +20,7 @@ import java.util.Objects;
 public class SearchResultFragment extends Fragment implements Observer<Search> {
     public static String[] params;
     public static final String ARG_PARAMS="ARG_PARAMS";
-    private static String TAG="MyLogs";
+    private static String TAG="MyLogs (SearchResultFragment)";
     private RecyclerView recycler;
     private static Search search =null;
     private LiveData<Search> liveData;

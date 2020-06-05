@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 public class MainActivity extends AppCompatActivity implements Observer<Search> {
+    private static String TAG= "MyLogs (MainActivity)";
 //Option menu: Fragments : settings,regestration,history
     //Activityes
 LiveData<Search> liveData;

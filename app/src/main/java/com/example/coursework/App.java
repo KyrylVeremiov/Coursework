@@ -13,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class App extends Application {
 
     private ViewModelProvider.Factory factory;
-    private Repository repository;
     private static App instance;
     @Override
     public void onCreate() {
@@ -21,7 +20,6 @@ public class App extends Application {
         factory = new DataViewModelFactory();
 
         instance = this;
-        repository=new Repository();
     }
     ViewModelProvider.Factory getViewModeFactory(){
         return factory;
@@ -30,9 +28,4 @@ public class App extends Application {
     public static App getInstance() {
         return instance;
     }
-
-    public Repository getRepository() {
-        return repository;
-    }
-
 }

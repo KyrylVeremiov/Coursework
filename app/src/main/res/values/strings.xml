@@ -24,4 +24,6 @@
     <string name="refresh">Refresh</string>
     <string name="show">Show</string>
     <string name="details">Details</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
 </resources>

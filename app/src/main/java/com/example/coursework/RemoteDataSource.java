@@ -9,6 +9,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RemoteDataSource {
+    private static String TAG= "MyLogs (RemoteDataSource)";
     private static ImagesApiNasa imagesApiNasa;
     private Retrofit retrofitNasa;
     RemoteDataSource(){
@@ -19,7 +20,7 @@ public class RemoteDataSource {
     }
     public Search fetchData(String[] params){
         Search data = new Search();
-        Log.e("myLogs", "making request");
+        Log.e(TAG, "making request");
         try {
             for(int i=0;i<params.length;i++){
                 if(params[i]!=null && params[i].equals(""))params[i]=null;

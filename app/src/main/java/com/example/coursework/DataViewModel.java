@@ -9,14 +9,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 public class DataViewModel extends ViewModel {
-    private static String TAG= "MyLogs";
-    private static Repository repository;
-    private static MediatorLiveData<Search> data = new MediatorLiveData<Search>();//reprository.getData()
+    private static String TAG= "MyLogs (DataViewModel)";
+    private Repository repository;
+    private MediatorLiveData<Search> data = new MediatorLiveData<Search>();//reprository.getData()
     //Database
     //Activity
 
     public DataViewModel() {
-        repository=App.getInstance().getRepository();
+        repository=new Repository();
         data.removeSource(repository.getData());
         data.addSource(repository.getData(), new Observer<Search>() {
             @Override
