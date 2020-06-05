@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,13 +51,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         else if(items!=null) {
                 final Datum datum= items.get(position).getData().get(0);
                 holder.title.setText(datum.getTitle());
-                holder.show.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //todo new search_result_fragment
-
-                    }
-                });
+                holder.webview.loadUrl(items.get(position).getHref());
             }
 //          //            holder.search.loadUrl(String.valueOf(Html.fromHtml(search.(), Html.FROM_HTML_MODE_LEGACY)));
 
@@ -76,15 +71,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        public Button show;
+        public WebView webview;
         public TextView title;
-        public Button details;
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            show = itemView.findViewById(R.id.show);
+            webview = (WebView) itemView.findViewById(R.id.webview);
             title = itemView.findViewById(R.id.title);
-            details= itemView.findViewById(R.id.details);
         }
     }
 }
